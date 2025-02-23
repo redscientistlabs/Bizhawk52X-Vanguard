@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	</PropertyGroup>
+	<Import Project="../LibCommon.props" />
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);MA0060;SA1514</NoWarn> <!-- MA0060 is for implicitly discarded Stream.Read return value and should really be fixed; SA1514 is a harmless lint rule -->
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+</Project>

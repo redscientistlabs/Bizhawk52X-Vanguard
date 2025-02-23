@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework><!-- some NuGet packages aren't for Standard, and are only loaded at runtime because EmuHawk is still Framework. More work will be required to move to Core. -->
+	</PropertyGroup>
+	<Import Project="../MainSlnCommon.props" />
+	<PropertyGroup>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\RTCV\Source\Libraries\CorruptCore\CorruptCore.csproj" />
+		<Reference Include="NLua, Version=1.4.1.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=MSIL" SpecificVersion="false" HintPath="$(ProjectDir)../../References/NLua.dll" Private="true" />
+		<PackageReference Include="Microsoft.Data.Sqlite.Core" />
+		<PackageReference Include="SharpCompress" />
+		<PackageReference Include="SQLitePCLRaw.provider.e_sqlite3" />
+		<PackageReference Include="System.Drawing.Common" PrivateAssets="all" />
+		<PackageReference Include="System.CommandLine" />
+		<ProjectReference Include="$(ProjectDir)../BizHawk.Emulation.Cores/BizHawk.Emulation.Cores.csproj" />
+		<ProjectReference Include="$(ProjectDir)../BizHawk.Bizware.Graphics/BizHawk.Bizware.Graphics.csproj" />
+		<EmbeddedResource Include="Resources/**/*" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="movie/bk2/Bk2Movie.HeaderApi.cs" DependentUpon="Bk2Movie.cs" />
+		<Compile Update="movie/bk2/Bk2Movie.InputLog.cs" DependentUpon="Bk2Movie.cs" />
+		<Compile Update="movie/bk2/Bk2Movie.IO.cs" DependentUpon="Bk2Movie.cs" />
+		<Compile Update="movie/bk2/Bk2Movie.ModeApi.cs" DependentUpon="Bk2Movie.cs" />
+		<Compile Update="movie/tasproj/TasMovie.Editing.cs" DependentUpon="TasMovie.cs" />
+		<Compile Update="movie/tasproj/TasMovie.IO.cs" DependentUpon="TasMovie.cs" />
+	</ItemGroup>
+</Project>

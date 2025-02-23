@@ -1,0 +1,1 @@
+[assembly: TestDataSourceDiscovery(TestDataSourceDiscoveryOption.DuringExecution)]

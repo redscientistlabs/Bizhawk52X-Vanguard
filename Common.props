@@ -1,0 +1,56 @@
+<Project>
+	<PropertyGroup>
+		<AnalysisLevel>6</AnalysisLevel>
+		<AnalysisModeGlobalization>Recommended</AnalysisModeGlobalization>
+		<AnalysisModeMaintainability>Recommended</AnalysisModeMaintainability>
+		<AnalysisModeReliability>Recommended</AnalysisModeReliability>
+		<AnalysisModePerformance>Recommended</AnalysisModePerformance>
+		<AnalysisModeUsage>Recommended</AnalysisModeUsage>
+		<EmitCompilerGeneratedFiles>false</EmitCompilerGeneratedFiles> <!-- enable to copy Roslyn Source Gemerators' outputs to $(ProjectDir)/obj/.../generated -->
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+		<ContinuousIntegrationBuild Condition=" '$(GITLAB_CI)' != '' Or '$(APPVEYOR)' != '' ">true</ContinuousIntegrationBuild>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>portable</DebugType>
+		<DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<ErrorReport>prompt</ErrorReport>
+		<Features>strict</Features>
+		<IsTargetingNetFramework>$(TargetFramework.StartsWith("net4"))</IsTargetingNetFramework>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile> <!-- it would be nice to rename these to *.api_reference.xml or something, but it seems https://github.com/dotnet/standard/issues/614 was never fixed -->
+		<LangVersion>12.0</LangVersion>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<NoWarn>$(NoWarn);CS1591;SA0001</NoWarn>
+		<Nullable>enable</Nullable>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+		<Optimize>false</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<Optimize>true</Optimize>
+		<PathMap>$(MSBuildProjectDirectory)=${$(MSBuildProjectName)}/</PathMap>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(MachineExtraCompilationFlag)' != '' ">
+		<DefineConstants>$(DefineConstants);$(MachineExtraCompilationFlag)</DefineConstants>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="DotNetAnalyzers.DocumentationAnalyzers" PrivateAssets="all" />
+		<PackageReference Include="Menees.Analyzers" PrivateAssets="all" />
+		<PackageReference Include="Meziantou.Analyzer" PrivateAssets="all" />
+		<PackageReference Include="Nullable" PrivateAssets="all" />
+		<PackageReference Include="StyleCop.Analyzers" PrivateAssets="all" />
+		<Analyzer Include="$(MSBuildProjectDirectory)/../../References/BizHawk.Analyzer.dll" />
+		<GlobalAnalyzerConfigFiles Include="$(MSBuildProjectDirectory)/../../.global.editorconfig.ini" />
+		<AdditionalFiles Include="$(MSBuildProjectDirectory)/../../.stylecop.json" />
+	</ItemGroup>
+	<PropertyGroup Condition=" $(IsTargetingNetFramework) ">
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+	<ItemGroup Condition=" $(IsTargetingNetFramework) ">
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="all" />
+		<PackageReference Include="System.Resources.Extensions" PrivateAssets="all" />
+	</ItemGroup>
+</Project>
