@@ -298,7 +298,7 @@ namespace RTCV.BizhawkVanguard
 				gameDone[VSPEC.SYSTEM] = BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper();
 				gameDone[VSPEC.GAMENAME] = BIZHAWK_GET_FILESYSTEMGAMENAME();
 				gameDone[VSPEC.SYSTEMPREFIX] = BIZHAWK_GET_SAVESTATEPREFIX();
-				gameDone[VSPEC.SYSTEMCORE] = BIZHAWK_GET_SYSTEMCORENAME(Global.Game.System);
+				gameDone[VSPEC.SYSTEMCORE] = BIZHAWK_GET_SYSTEMCORENAME(GlobalWin.MainForm.Game.System);
 				gameDone[VSPEC.SYNCSETTINGS] = BIZHAWK_GETSET_SYNCSETTINGS;
 				gameDone[VSPEC.OPENROMFILENAME] = GlobalWin.MainForm.CurrentlyOpenRom;
 				gameDone[VSPEC.MEMORYDOMAINS_BLACKLISTEDDOMAINS] = VanguardCore.GetBlacklistedDomains(BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper());
@@ -417,10 +417,10 @@ namespace RTCV.BizhawkVanguard
 			{
 				//This returns the filename of the currently loaded game before extension
 
-				PathEntry pathEntry = Global.Config.PathEntries[Global.Game.System, "Savestates"] ??
-				Global.Config.PathEntries[Global.Game.System, "Base"];
+				PathEntry pathEntry = GlobalWin.MainForm.Config.PathEntries[GlobalWin.MainForm.Game.System, "Savestates"] ??
+				GlobalWin.MainForm.Config.PathEntries[GlobalWin.MainForm.Game.System, "Base"];
 
-				return PathManager.FilesystemSafeName(Global.Game);
+				return PathManager.FilesystemSafeName(GlobalWin.MainForm.Game);
 			}
 			catch (Exception ex)
 			{
@@ -437,7 +437,7 @@ namespace RTCV.BizhawkVanguard
 			{
 				//returns the currently loaded core's name
 
-				return Global.Game.System;
+				return GlobalWin.MainForm.Game.System;
 			}
 			catch (Exception ex)
 			{
@@ -598,7 +598,7 @@ namespace RTCV.BizhawkVanguard
 
 		public static string BIZHAWK_GET_SAVESTATEPREFIX()
 		{
-			return PathManager.FilesystemSafeName(Global.Game);
+			return PathManager.FilesystemSafeName(GlobalWin.MainForm.Game);
 		}
 
 		public static void BIZHAWK_LOADSTATE(string path)
@@ -696,6 +696,10 @@ namespace RTCV.BizhawkVanguard
 											 ?? new N64SyncSettings();
 
 						return $"{ss.VideoPlugin}/{ss.Rsp}/{ss.Core}/{(ss.DisableExpansionSlot ? "NoExp" : "Exp")}";
+
+					case "3DS":
+						return "3DS";
+
 					default:
 						break;
 				}
