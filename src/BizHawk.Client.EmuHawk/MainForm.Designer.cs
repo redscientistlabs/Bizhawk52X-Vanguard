@@ -1331,27 +1331,29 @@ namespace BizHawk.Client.EmuHawk
 			// ToolsSubMenu
 			// 
 			this.ToolsSubMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolBoxMenuItem,
-            this.toolStripSeparator12,
-            this.RamWatchMenuItem,
-            this.RamSearchMenuItem,
-            this.LuaConsoleMenuItem,
-            this.TAStudioMenuItem,
-            this.HexEditorMenuItem,
-            this.TraceLoggerMenuItem,
-            this.DebuggerMenuItem,
-            this.CodeDataLoggerMenuItem,
-            this.MacroToolMenuItem,
-            this.VirtualPadMenuItem,
-            this.BasicBotMenuItem,
-            this.toolStripSeparator11,
-            this.CheatsMenuItem,
-            this.GameSharkConverterMenuItem,
-            this.toolStripSeparator29,
-            this.MultiDiskBundlerFileMenuItem,
-            this.BatchRunnerMenuItem,
-            this.ExternalToolMenuItem,
-            this.RetroAchievementsMenuItem});
+			this.ToolBoxMenuItem,
+			this.toolStripSeparator12,
+			this.RamWatchMenuItem,
+			this.RamSearchMenuItem,
+			this.LuaConsoleMenuItem,
+			this.TAStudioMenuItem,
+			this.HexEditorMenuItem,
+			this.TraceLoggerMenuItem,
+			this.DebuggerMenuItem,
+			this.CodeDataLoggerMenuItem,
+			this.MacroToolMenuItem,
+			this.VirtualPadMenuItem,
+			this.BasicBotMenuItem,
+			this.toolStripSeparator11,
+			this.CheatsMenuItem,
+			this.GameSharkConverterMenuItem,
+			this.toolStripSeparator29,
+			this.MultiDiskBundlerFileMenuItem,
+			this.BatchRunnerMenuItem,
+			this.ExternalToolMenuItem,
+			// RTC_Hijack: nuke RetroAchievements
+            //this.RetroAchievementsMenuItem});
+			});
 			this.ToolsSubMenu.Text = "&Tools";
 			this.ToolsSubMenu.DropDownOpened += new System.EventHandler(this.ToolsSubMenu_DropDownOpened);
 			// 
@@ -1446,6 +1448,8 @@ namespace BizHawk.Client.EmuHawk
 			// dummyExternalTool
 			// 
 			this.dummyExternalTool.Text = "None";
+			// RTC_Hijack: nuke RetroAchievements
+			/*
 			// 
 			// RetroAchievementsMenuItem
 			// 
@@ -1457,6 +1461,7 @@ namespace BizHawk.Client.EmuHawk
 			// 
 			this.StartRetroAchievementsMenuItem.Text = "&Start RetroAchievements";
 			this.StartRetroAchievementsMenuItem.Click += new System.EventHandler(this.StartRetroAchievementsMenuItem_Click);
+			*/
 			// 
 			// NESSubMenu
 			// 
