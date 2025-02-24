@@ -5,12 +5,14 @@ using System.Linq;
 using System.Windows.Forms;
 using BizHawk.Client.Common;
 using BizHawk.Client.EmuHawk;
+using BizHawk.Client.EmuHawk.RTC;
 using BizHawk.Emulation.Common;
 using BizHawk.Emulation.Cores.Nintendo.N64;
 using RTCV.CorruptCore;
 using RTCV.NetCore;
 using RTCV.NetCore.Commands;
 using RTCV.Vanguard;
+using static BizHawk.Emulation.Cores.Computers.Amiga.LibUAE.FrameInfo;
 
 namespace RTCV.BizhawkVanguard
 {
@@ -289,6 +291,38 @@ namespace RTCV.BizhawkVanguard
 				PathEntry pathEntry = Global.Config.PathEntries[Global.Game.System, "Savestates"] ??
 				Global.Config.PathEntries[Global.Game.System, "Base"];
 
+				//Check the config file for if we should reload the game when a savestate is loaded
+				bool reload_on_savestate = true;
+				var config = VanguardConfigReader.configFile.RELOAD_ON_SAVESTATE;
+				switch (BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper())
+				{
+					case "GAMEBOY":
+						reload_on_savestate = config.GAMEBOY;
+
+						break;
+
+					case "NES":
+						reload_on_savestate = config.NES;
+
+						break;
+
+					case "SNES":
+
+						reload_on_savestate = config.SNES;
+
+						break;
+
+					case "GBA":
+						reload_on_savestate = config.GBA;
+
+						break;
+
+					case "3DS":
+						reload_on_savestate = config.N3DS;
+
+						break;
+
+				}
 
 
 				//prepare memory domains in advance on bizhawk side
@@ -304,6 +338,7 @@ namespace RTCV.BizhawkVanguard
 				gameDone[VSPEC.MEMORYDOMAINS_BLACKLISTEDDOMAINS] = VanguardCore.GetBlacklistedDomains(BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper());
 				gameDone[VSPEC.MEMORYDOMAINS_INTERFACES] = GetInterfaces();
 				gameDone[VSPEC.CORE_DISKBASED] = isCurrentCoreDiskBased();
+				gameDone[VSPEC.RELOAD_ON_SAVESTATE] = reload_on_savestate;
 				AllSpec.VanguardSpec.Update(gameDone);
 
 				//This is local. If the domains changed it propgates over netcore
@@ -501,8 +536,21 @@ namespace RTCV.BizhawkVanguard
 		{
 			try
 			{
-				var lra = new LoadRomArgs(new OpenAdvanced_OpenRom { Path = RomFile });
-				GlobalWin.MainForm.LoadRom(RomFile, lra);
+				string currentOpenRom = "";
+				if ((string) AllSpec.VanguardSpec[VSPEC.OPENROMFILENAME] != "")
+					currentOpenRom = (string) AllSpec.VanguardSpec[VSPEC.OPENROMFILENAME];
+
+				bool reload_rom = true;
+				if ((AllSpec.VanguardSpec[VSPEC.RELOAD_ON_SAVESTATE]) != null)
+					reload_rom = (bool) AllSpec.VanguardSpec[VSPEC.RELOAD_ON_SAVESTATE];
+
+				// Only send the command if it should always be reloaded (e.g. the ROM needs to be uncorrupted),
+				// or if we need to load a new rom (since some systems take longer to load every time)
+				if (reload_rom || currentOpenRom != RomFile)
+				{
+					var lra = new LoadRomArgs(new OpenAdvanced_OpenRom { Path = RomFile });
+					GlobalWin.MainForm.LoadRom(RomFile, lra);
+				}
 			}
 			catch (Exception ex)
 			{
