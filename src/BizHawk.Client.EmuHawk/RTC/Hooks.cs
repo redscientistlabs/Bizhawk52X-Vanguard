@@ -296,24 +296,29 @@ namespace RTCV.BizhawkVanguard
 				var config = VanguardConfigReader.configFile.RELOAD_ON_SAVESTATE;
 				switch (BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper())
 				{
-					case "GAMEBOY":
-						reload_on_savestate = config.GAMEBOY;
+					case "PCENGINE":
+						reload_on_savestate = config.PCEngine;
 
 						break;
 
-					case "NES":
-						reload_on_savestate = config.NES;
+					case "PLAYSTATION":
+						reload_on_savestate = config.Playstation;
 
 						break;
 
-					case "SNES":
+					case "SATURN":
 
-						reload_on_savestate = config.SNES;
+						reload_on_savestate = config.Saturn;
 
 						break;
 
-					case "GBA":
-						reload_on_savestate = config.GBA;
+					case "JAGUAR":
+						reload_on_savestate = config.Jaguar;
+
+						break;
+
+					case "NDS":
+						reload_on_savestate = config.NDS;
 
 						break;
 

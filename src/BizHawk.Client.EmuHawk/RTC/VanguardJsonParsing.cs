@@ -14,14 +14,17 @@ namespace BizHawk.Client.EmuHawk.RTC
 	// setting for if the game should be reloaded based on the system from config file
 	public class ReloadOnSaveStateConfig
 	{
-		public bool GAMEBOY { get; set; }
-		public bool GBC { get; set; }
-		public bool NES { get; set; }
-		public bool SNES { get; set; }
-		public bool GBA { get; set; }
-		public bool N64 { get; set; }
+
+		[JsonProperty("PC Engine")]
+		public bool PCEngine { get; set; }
+		public bool Playstation { get; set; }
+		public bool Saturn { get; set; }
+		public bool Jaguar { get; set; }
+		public bool NDS { get; set; }
 		[JsonProperty("3DS")]
 		public bool N3DS { get; set; }
+
+
 	}
 
 	public class VanguardConfigReader
