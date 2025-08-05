@@ -56,7 +56,8 @@ namespace BizHawk.Client.EmuHawk
 
 		/// <remarks>only referenced from <see cref="LuaConsole"/></remarks>
 		/// <param name="forceWindowResize">Override <see cref="Common.Config.ResizeWithFramebuffer"/></param>
-		void FrameBufferResized(bool forceWindowResize = false);
+		// RTC_Hijack: Add allowResize
+		void FrameBufferResized(bool forceWindowResize = false, bool allowResize = false);
 
 		/// <remarks>only referenced from <see cref="BasicBot"/></remarks>
 		bool LoadQuickSave(int slot, bool suppressOSD = false);

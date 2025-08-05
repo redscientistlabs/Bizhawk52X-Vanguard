@@ -185,7 +185,8 @@ namespace BizHawk.Client.EmuHawk
 			}
 
 			HandleToggleLightAndLink();
-			SetStatusBar();
+			// RTC_Hijack: Add allowResize
+			SetStatusBar(allowResize: true);
 			_stateSlots.Update(Emulator, MovieSession.Movie, SaveStatePrefix());
 
 			var quickslotButtons = new[]
@@ -1413,7 +1414,8 @@ namespace BizHawk.Client.EmuHawk
 			AddOnScreenMessage($"{fi.Name} saved.");
 		}
 
-		public void FrameBufferResized(bool forceWindowResize = false)
+		// RTC_Hijack: Add allowResize
+		public void FrameBufferResized(bool forceWindowResize = false, bool allowResize = false)
 		{
 			if (WindowState is not FormWindowState.Normal)
 			{
@@ -1451,8 +1453,9 @@ namespace BizHawk.Client.EmuHawk
 //				Util.DebugWriteLine($"  Selecting display size {lastComputedSize}");
 
 				// Change size
-				//RTC_HIJACK : Don't change the MainForm Size
-				//Size = new Size(lastComputedSize.Width + borderWidth, lastComputedSize.Height + borderHeight);
+				//RTC_HIJACK : Only change the MainForm Size if it was selected in the window size tab
+				if (allowResize)
+					Size = new Size(lastComputedSize.Width + borderWidth, lastComputedSize.Height + borderHeight);
 
 				PerformLayout();
 				_presentationPanel.Resized = true;
@@ -1752,13 +1755,15 @@ namespace BizHawk.Client.EmuHawk
 		// countdown for saveram autoflushing
 		public int AutoFlushSaveRamIn { get; set; }
 
-		private void SetStatusBar()
+		// RTC_Hijack: Add allowResize
+		private void SetStatusBar(bool allowResize = false)
 		{
 			if (!_inFullscreen)
 			{
 				MainStatusBar.Visible = Config.DispChromeStatusBarWindowed;
 				PerformLayout();
-				FrameBufferResized();
+				// RTC_Hijack: Add allowResize
+				FrameBufferResized(allowResize: allowResize);
 			}
 		}
 

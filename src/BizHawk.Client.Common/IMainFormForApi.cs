@@ -54,7 +54,8 @@ namespace BizHawk.Client.Common
 		void FrameAdvance(bool discardApiHawkSurfaces = true);
 
 		/// <param name="forceWindowResize">Override <see cref="Common.Config.ResizeWithFramebuffer"/></param>
-		void FrameBufferResized(bool forceWindowResize = false);
+		// RTC_Hijack: Add allowResize
+		void FrameBufferResized(bool forceWindowResize = false, bool allowResize = false);
 
 		void FrameSkipMessage();
 
