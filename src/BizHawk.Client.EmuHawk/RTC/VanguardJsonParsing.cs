@@ -23,6 +23,7 @@ namespace BizHawk.Client.EmuHawk.RTC
 		public bool NDS { get; set; }
 		[JsonProperty("3DS")]
 		public bool N3DS { get; set; }
+		public bool N64 { get; set; }
 
 
 	}

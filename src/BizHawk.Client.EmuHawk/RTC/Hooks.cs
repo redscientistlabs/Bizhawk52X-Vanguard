@@ -327,11 +327,27 @@ namespace RTCV.BizhawkVanguard
 
 						break;
 
+					case "N64":
+						reload_on_savestate = config.N64;
+
+						break;
 				}
 
 
 				//prepare memory domains in advance on bizhawk side
 				bool domainsChanged = RefreshDomains(false);
+
+				MemoryDomainProxy[] domains = GetInterfaces();
+				if (BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper() == "N64" && !reload_on_savestate)
+				{
+					List<MemoryDomainProxy> newDomains = [ ];
+					foreach (var domain in domains)
+					{
+						if (domain.Name != "ROM")
+							newDomains.Add(domain);
+					}
+					domains = newDomains.ToArray();
+				}
 
 				PartialSpec gameDone = new PartialSpec("VanguardSpec");
 				gameDone[VSPEC.SYSTEM] = BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper();
@@ -341,7 +357,7 @@ namespace RTCV.BizhawkVanguard
 				gameDone[VSPEC.SYNCSETTINGS] = BIZHAWK_GETSET_SYNCSETTINGS;
 				gameDone[VSPEC.OPENROMFILENAME] = GlobalWin.MainForm.CurrentlyOpenRom;
 				gameDone[VSPEC.MEMORYDOMAINS_BLACKLISTEDDOMAINS] = VanguardCore.GetBlacklistedDomains(BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper());
-				gameDone[VSPEC.MEMORYDOMAINS_INTERFACES] = GetInterfaces();
+				gameDone[VSPEC.MEMORYDOMAINS_INTERFACES] = domains;
 				gameDone[VSPEC.CORE_DISKBASED] = isCurrentCoreDiskBased();
 				gameDone[VSPEC.RELOAD_ON_SAVESTATE] = reload_on_savestate;
 				AllSpec.VanguardSpec.Update(gameDone);
