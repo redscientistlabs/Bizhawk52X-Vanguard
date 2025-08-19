@@ -202,6 +202,7 @@ namespace RTCV.BizhawkVanguard
 						break;
 
 					case RTCV.NetCore.Commands.Remote.EventCloseEmulator:
+						GlobalWin.MainForm?.Close();
 						Environment.Exit(0);
 						break;
 				}
