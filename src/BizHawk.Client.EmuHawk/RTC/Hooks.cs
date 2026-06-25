@@ -808,10 +808,13 @@ namespace RTCV.BizhawkVanguard
 			{
 				try
 				{
-					SettingsAdapter settable = GlobalWin.MainForm.GetSettingsAdapterForLoadedCoreUntyped();
-					if (settable.HasSyncSettings)
+					if (!string.IsNullOrEmpty(value))
 					{
-						settable.PutCoreSyncSettings(ConfigService.LoadWithType(value));
+						SettingsAdapter settable = GlobalWin.MainForm.GetSettingsAdapterForLoadedCoreUntyped();
+						if (settable.HasSyncSettings)
+						{
+							settable.PutCoreSyncSettings(ConfigService.LoadWithType(value));
+						}
 					}
 				}
 				catch (Exception ex)
