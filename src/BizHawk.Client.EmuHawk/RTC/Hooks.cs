@@ -790,8 +790,7 @@ namespace RTCV.BizhawkVanguard
 			{
 				try
 				{
-					SettingsAdapter settable = new SettingsAdapter(Global.Emulator, () => true,
-						_ => { }, () => true, _ => { });
+					SettingsAdapter settable = GlobalWin.MainForm.GetSettingsAdapterForLoadedCoreUntyped();
 					if (settable.HasSyncSettings)
 					{
 						string ss = ConfigService.SaveWithType(settable.GetSyncSettings());
@@ -809,8 +808,7 @@ namespace RTCV.BizhawkVanguard
 			{
 				try
 				{
-					SettingsAdapter settable = new SettingsAdapter(Global.Emulator, () => true,
-						_ => { }, () => true, _ => { });
+					SettingsAdapter settable = GlobalWin.MainForm.GetSettingsAdapterForLoadedCoreUntyped();
 					if (settable.HasSyncSettings)
 					{
 						settable.PutCoreSyncSettings(ConfigService.LoadWithType(value));
