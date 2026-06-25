@@ -557,21 +557,8 @@ namespace RTCV.BizhawkVanguard
 		{
 			try
 			{
-				string currentOpenRom = "";
-				if ((string) AllSpec.VanguardSpec[VSPEC.OPENROMFILENAME] != "")
-					currentOpenRom = (string) AllSpec.VanguardSpec[VSPEC.OPENROMFILENAME];
-
-				bool reload_rom = true;
-				if ((AllSpec.VanguardSpec[VSPEC.RELOAD_ON_SAVESTATE]) != null)
-					reload_rom = (bool) AllSpec.VanguardSpec[VSPEC.RELOAD_ON_SAVESTATE];
-
-				// Only send the command if it should always be reloaded (e.g. the ROM needs to be uncorrupted),
-				// or if we need to load a new rom (since some systems take longer to load every time)
-				if (reload_rom || currentOpenRom != RomFile)
-				{
-					var lra = new LoadRomArgs(new OpenAdvanced_OpenRom { Path = RomFile });
-					GlobalWin.MainForm.LoadRom(RomFile, lra);
-				}
+				var lra = new LoadRomArgs(new OpenAdvanced_OpenRom { Path = RomFile });
+				GlobalWin.MainForm.LoadRom(RomFile, lra);
 			}
 			catch (Exception ex)
 			{
