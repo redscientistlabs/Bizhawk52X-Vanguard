@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using BizHawk.Common.PathExtensions;
 using Newtonsoft.Json;
@@ -8,25 +9,18 @@ namespace BizHawk.Client.EmuHawk.RTC
 	// Root object of config file
 	public class ConfigRoot
 	{
-		public ReloadOnSaveStateConfig RELOAD_ON_SAVESTATE { get; set; }
+		public List<SystemConfig> Systems { get; set; }
+
 	}
 
-	// setting for if the game should be reloaded based on the system from config file
-	public class ReloadOnSaveStateConfig
+	// Array of systems that have specific settings
+	public class SystemConfig
 	{
-
-		[JsonProperty("PC Engine")]
-		public bool PCEngine { get; set; }
-		public bool Playstation { get; set; }
-		public bool Saturn { get; set; }
-		public bool Jaguar { get; set; }
-		public bool NDS { get; set; }
-		[JsonProperty("3DS")]
-		public bool N3DS { get; set; }
-		public bool N64 { get; set; }
-
-
+		public string Name { get; set; }
+		public List<string> RequiresReload { get; set; }
 	}
+
+
 
 	public class VanguardConfigReader
 	{
@@ -49,8 +43,8 @@ namespace BizHawk.Client.EmuHawk.RTC
 			}
 
 			string config = File.ReadAllText(PathUtils.ExeDirectoryPath + "\\VanguardConfig.Json");
-			ConfigRoot configFile = JsonConvert.DeserializeObject<ConfigRoot>(config);
-			return configFile;
+			ConfigRoot file = JsonConvert.DeserializeObject<ConfigRoot>(config);
+			return file;
 		}
 	}
 }

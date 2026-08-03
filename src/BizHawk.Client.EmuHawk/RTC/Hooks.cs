@@ -291,54 +291,22 @@ namespace RTCV.BizhawkVanguard
 				PathEntry pathEntry = Global.Config.PathEntries[Global.Game.System, "Savestates"] ??
 				Global.Config.PathEntries[Global.Game.System, "Base"];
 
-				//Check the config file for if we should reload the game when a savestate is loaded
-				bool reload_on_savestate = true;
-				var config = VanguardConfigReader.configFile.RELOAD_ON_SAVESTATE;
-				switch (BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper())
+				//Check the config file for if we should reload the game when a specific domain has blast units applied to it
+				var config = VanguardConfigReader.configFile.Systems;
+				var currentSystem = BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper();
+
+				List<string> domainsThatRequireReload = new List<string>();
+				var system = config.Find(system => system.Name.Equals(currentSystem, StringComparison.OrdinalIgnoreCase));
+				if (system != null)
 				{
-					case "PCENGINE":
-						reload_on_savestate = config.PCEngine;
-
-						break;
-
-					case "PLAYSTATION":
-						reload_on_savestate = config.Playstation;
-
-						break;
-
-					case "SATURN":
-
-						reload_on_savestate = config.Saturn;
-
-						break;
-
-					case "JAGUAR":
-						reload_on_savestate = config.Jaguar;
-
-						break;
-
-					case "NDS":
-						reload_on_savestate = config.NDS;
-
-						break;
-
-					case "3DS":
-						reload_on_savestate = config.N3DS;
-
-						break;
-
-					case "N64":
-						reload_on_savestate = config.N64;
-
-						break;
+					domainsThatRequireReload = system.RequiresReload.ToList();
 				}
-
 
 				//prepare memory domains in advance on bizhawk side
 				bool domainsChanged = RefreshDomains(false);
 
 				MemoryDomainProxy[] domains = GetInterfaces();
-				if (BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper() == "N64" && !reload_on_savestate)
+				if (currentSystem.Equals("N64", StringComparison.OrdinalIgnoreCase))
 				{
 					List<MemoryDomainProxy> newDomains = [ ];
 					foreach (var domain in domains)
@@ -350,16 +318,17 @@ namespace RTCV.BizhawkVanguard
 				}
 
 				PartialSpec gameDone = new PartialSpec("VanguardSpec");
-				gameDone[VSPEC.SYSTEM] = BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper();
+				gameDone[VSPEC.SYSTEM] = currentSystem;
 				gameDone[VSPEC.GAMENAME] = BIZHAWK_GET_FILESYSTEMGAMENAME();
 				gameDone[VSPEC.SYSTEMPREFIX] = BIZHAWK_GET_SAVESTATEPREFIX();
 				gameDone[VSPEC.SYSTEMCORE] = BIZHAWK_GET_SYSTEMCORENAME(GlobalWin.MainForm.Game.System);
 				gameDone[VSPEC.SYNCSETTINGS] = BIZHAWK_GETSET_SYNCSETTINGS;
 				gameDone[VSPEC.OPENROMFILENAME] = GlobalWin.MainForm.CurrentlyOpenRom;
-				gameDone[VSPEC.MEMORYDOMAINS_BLACKLISTEDDOMAINS] = VanguardCore.GetBlacklistedDomains(BIZHAWK_GET_CURRENTLYLOADEDSYSTEMNAME().ToUpper());
+				gameDone[VSPEC.MEMORYDOMAINS_BLACKLISTEDDOMAINS] = VanguardCore.GetBlacklistedDomains(currentSystem);
 				gameDone[VSPEC.MEMORYDOMAINS_INTERFACES] = domains;
 				gameDone[VSPEC.CORE_DISKBASED] = isCurrentCoreDiskBased();
-				gameDone[VSPEC.RELOAD_ON_SAVESTATE] = reload_on_savestate;
+				gameDone[VSPEC.RELOAD_ON_SYNCSETTINGS] = true;
+				gameDone[VSPEC.RELOAD_IF_DOMAIN_SELECTED] = domainsThatRequireReload.ToArray();
 				AllSpec.VanguardSpec.Update(gameDone);
 
 				//This is local. If the domains changed it propgates over netcore
