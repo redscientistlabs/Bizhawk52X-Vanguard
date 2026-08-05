@@ -1,0 +1,72 @@
+{
+  "Systems": [
+    {
+      "Name": "NES",
+      "RequiresReload": ["PRG ROM", "CHR VROM"]
+    },
+    {
+      "Name": "GBC",
+      "RequiresReload": ["ROM"]
+    },
+    {
+      "Name": "SNES",
+      "RequiresReload": ["CARTROM", "SGB CARTROM"]
+    },
+    {
+      "Name": "N64",
+      "RequiresReload": ["ROM", "EEPROM"]
+    },
+    {
+      "Name": "SGX",
+      "RequiresReload": ["ROM"]
+    },
+    {
+      "Name": "GBA",
+      "RequiresReload": ["ROM"]
+    },
+    {
+      "Name": "SMS",
+      "RequiresReload": ["ROM"]
+    },
+    {
+      "Name": "GG",
+      "RequiresReload": ["ROM"]
+    },
+    {
+      "Name": "SG",
+      "RequiresReload": ["ROM"]
+    },
+    {
+      "Name": "32X",
+			"RequiresReload": ["BOOT ROM", "CD BOOT ROM"]
+    },
+    {
+      "Name": "PSX",
+      "RequiresReload": ["BiosROM"]
+    },
+    {
+      "Name": "WSWAN",
+      "RequiresReload": ["ROM"]
+    },
+    {
+      "Name": "VB",
+      "RequiresReload": ["ROM"]
+    },
+    {
+      "Name": "SAT",
+      "RequiresReload": ["Boot Rom"]
+    },
+    {
+      "Name": "INTV",
+      "RequiresReload": ["Graphics Rom", "System ROM", "Executive Rom"]
+    },
+    {
+      "Name": "NDS",
+      "RequiresReload": ["ROM"]
+    },
+    {
+      "Name": "3DS",
+      "RequiresReload": ["ROM"]
+    }
+  ]
+}
