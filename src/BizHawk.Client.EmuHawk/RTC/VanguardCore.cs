@@ -519,7 +519,13 @@ namespace RTCV.BizhawkVanguard
 					domainBlacklist.Add("ROM");
 					break;
 
-				case "32X_INTERIM":
+				case "32X":
+					domainBlacklist.Add("CRAM"); //Color Ram
+					domainBlacklist.Add("VSRAM"); //Vertical scroll ram. Do you like glitched scrolling? Have a dedicated domain...
+					domainBlacklist.Add("MD CART");
+					domainBlacklist.Add("32X FB"); //32X Sprinkles
+					domainBlacklist.Add("SRAM"); //Save Ram
+					break;
 				case "GEN":     //Sega Genesis and CD
 					domainBlacklist.Add("MD CART");
 					domainBlacklist.Add("CRAM"); //Color Ram

@@ -137,6 +137,13 @@ namespace BizHawk.Client.Common
 			// note: this will be taking several hashes, of a potentially large amount of data.. yikes!
 			GameInfo = Database.GetGameInfo(RomData, file.Name);
 
+			// RTC_Hijack: Make sure we change the system to Sega32X if the option is present
+			if (GameInfo.System == VSystemID.Raw.GEN)
+			{
+				if (GameInfo.OptionPresent("32X"))
+					GameInfo.System = VSystemID.Raw.Sega32X;
+			}
+
 			if (GameInfo.NotInDatabase && headerOffset == 128 && file.Extension == ".a78")
 			{
 				// if the game is not in the DB, add the header back in so the core can use it
