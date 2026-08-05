@@ -576,6 +576,8 @@ namespace RTCV.BizhawkVanguard
 					domainBlacklist.Add("VDP1 Framebuffer"); //Sprinkles
 					domainBlacklist.Add("VDP2 CRam"); //VDP 2 color ram (pallettes)
 					domainBlacklist.Add("Sound Ram"); //90% chance of killing the audio
+					domainBlacklist.Add("SMPC RTC"); //System Management & Perphieral Control Real-Time Clock
+					domainBlacklist.Add("SMPC SaveMem"); //System Management & Peripheral Controll Save Memory
 					break;
 
 				case "INTV": //Intellivision
